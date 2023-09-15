@@ -43,6 +43,7 @@ class QuillHtmlEditor extends StatefulWidget {
       color: Colors.black87,
       fontWeight: FontWeight.normal,
     ),
+    this.navigationDelegate,
   }) : super(key: controller._editorKey);
 
   /// [text] to set initial text to the editor, please use text
@@ -108,6 +109,10 @@ class QuillHtmlEditor extends StatefulWidget {
   /// default padding will be EdgeInsets.zero
   final EdgeInsets? hintTextPadding;
 
+  /// Callback to decide whether to allow navigation to the incoming url
+  final NavigationDecision Function(NavigationRequest navigation)?
+      navigationDelegate;
+
   @override
   QuillHtmlEditorState createState() => QuillHtmlEditorState();
 }
@@ -128,6 +133,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
   late StreamSubscription<bool> _keyboardSubscription;
   bool _isKeyboardVisible = false;
   bool _hasFocus = false;
+
   @override
   void initState() {
     isEnabled = widget.isEnabled;
@@ -284,6 +290,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
       mobileSpecificParams: const MobileSpecificParams(
         androidEnableHybridComposition: false,
       ),
+      navigationDelegate: widget.navigationDelegate,
     );
   }
 
