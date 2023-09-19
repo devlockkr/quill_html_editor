@@ -110,7 +110,7 @@ class QuillHtmlEditor extends StatefulWidget {
   final EdgeInsets? hintTextPadding;
 
   /// Callback to decide whether to allow navigation to the incoming url
-  final NavigationDecision Function(NavigationRequest navigation)?
+  final FutureOr<bool> Function(NavigationRequest navigation)?
       navigationDelegate;
 
   @override
@@ -290,7 +290,18 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
       mobileSpecificParams: const MobileSpecificParams(
         androidEnableHybridComposition: false,
       ),
-      navigationDelegate: widget.navigationDelegate,
+      navigationDelegate: widget.navigationDelegate == null
+          ? null
+          : (navigation) async {
+        final consumed =
+            await widget.navigationDelegate?.call(navigation) ??
+                false;
+        if (consumed) {
+          return NavigationDecision.prevent;
+        } else {
+          return NavigationDecision.navigate;
+        }
+      },
     );
   }
 
