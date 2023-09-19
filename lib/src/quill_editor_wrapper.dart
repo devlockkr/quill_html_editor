@@ -689,12 +689,36 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
             ResponsibilityBlot.blotName = 'responsibility';
             ResponsibilityBlot.tagName = 'responsibility';
             Quill.register(ResponsibilityBlot);
-            
+
+            ///// quill shift enter key binding      
+            var bindings = {
+                linebreak: {
+                    key: 13,
+                    shiftKey: true,
+                    handler: function(range) {
+                        this.quill.insertEmbed(range.index, 'breaker', true, Quill.sources.USER);
+                        this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+                        return false;
+                    }
+                },
+                enter: {
+                    key: 'Enter',
+                    handler: () => {
+                       if($kIsWeb) {
+                        OnEditingCompleted(quilleditor.root.innerHTML);
+                        } else {
+                        OnEditingCompleted.postMessage(quilleditor.root.innerHTML);
+                        }
+                    }
+                }
+            };
+                          
             var quilleditor = new Quill('#editor', {
               modules: {
                 toolbar: '#toolbar-container',
                 matchVisual: false,
                 table: true,
+                keyboard:  {bindings: bindings},
                 history: {
                   delay: 2000,
                   maxStack: 500,
@@ -812,13 +836,6 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
               }
             });
 
-           quilleditor.root.addEventListener('keydown', function(event) {
-              if (event.keyCode === 13) {
-                event.preventDefault();
-                insertHtmlText("<br> ", null);
-              }
-            });            
-                        
             applyGoogleKeyboardWorkaround(quilleditor);
            
             function getHtmlText() {
