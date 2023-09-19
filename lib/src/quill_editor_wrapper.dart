@@ -293,15 +293,14 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
       navigationDelegate: widget.navigationDelegate == null
           ? null
           : (navigation) async {
-        final consumed =
-            await widget.navigationDelegate?.call(navigation) ??
-                false;
-        if (consumed) {
-          return NavigationDecision.prevent;
-        } else {
-          return NavigationDecision.navigate;
-        }
-      },
+              final consumed =
+                  await widget.navigationDelegate?.call(navigation) ?? false;
+              if (consumed) {
+                return NavigationDecision.prevent;
+              } else {
+                return NavigationDecision.navigate;
+              }
+            },
     );
   }
 
@@ -812,7 +811,14 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
                 FocusChanged.postMessage(focus);
               }
             });
-            
+
+           quilleditor.root.addEventListener('keydown', function(event) {
+              if (event.keyCode === 13) {
+                event.preventDefault();
+                insertHtmlText("<br>", null);
+              }
+            });            
+                        
             applyGoogleKeyboardWorkaround(quilleditor);
            
             function getHtmlText() {
