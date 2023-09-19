@@ -18,7 +18,7 @@ dependencies:
   ##### For image picker widget
   file_picker: ^5.2.5
   ##### For webveiwx widget
-  http: ^0.13.5
+  http: ^1.0.0
   path: ^1.8.2
   pointer_interceptor: ^0.9.3+4
   uuid: ^3.0.7
