@@ -270,7 +270,7 @@ class _MyAppState extends State<MyApp> {
   ///this method recognises the inserted url and sanitize to make it embeddable url
   ///eg: converts youtube video to embed video, same for vimeo
   void insertVideoURL(String url) async {
-    await controller.embedVideo(url);
+    await controller.embedVideo(url + "#t=0.1");
   }
 
   /// to set the html text to editor
