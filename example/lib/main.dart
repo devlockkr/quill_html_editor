@@ -271,7 +271,7 @@ class _MyAppState extends State<MyApp> {
   ///eg: converts youtube video to embed video, same for vimeo
   void insertVideoURL(String url) async {
     debugPrint(url);
-    String mUrl = "${url}#t=0.1"
+    String mUrl = "${url}#t=0.1";
     debugPrint(mUrl);
     await controller.embedVideo(mUrl);
   }
