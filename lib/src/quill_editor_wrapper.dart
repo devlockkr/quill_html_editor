@@ -1124,7 +1124,8 @@ class QuillEditorController {
 
   /// [embedVideo] method is used to embed url of video to the editor
   Future embedVideo(String url) async {
-    String? link = StringUtil.sanitizeVideoUrl(url);
+    String mUrl = "${url}#t=0.1";
+    String? link = StringUtil.sanitizeVideoUrl(mUrl);
     if (link == null) {
       return;
     }
