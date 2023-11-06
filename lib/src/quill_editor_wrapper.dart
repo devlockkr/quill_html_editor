@@ -364,8 +364,8 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
 
   /// a private method to embed the video to the editor
   Future _embedVideo({required String videoUrl}) async {
-    String mVideoUrl = "${videoUrl}#t=0.1";
-    return await _webviewController.callJsMethod("embedVideo", [mVideoUrl]);
+    // String mVideoUrl = "${videoUrl}#t=0.1";
+    return await _webviewController.callJsMethod("embedVideo", [videoUrl]);
   }
 
   /// a private method to embed the image to the editor
