@@ -157,12 +157,16 @@ class _WebViewXState extends State<WebViewX> {
 
     late final wf.PlatformWebViewWidgetCreationParams widgetParams;
     if (Platform.isAndroid) {
-      widgetParams = wf_android.AndroidWebViewWidgetCreationParams(
-        controller: originalWebViewController.platform,
-        gestureRecognizers:
-            widget.mobileSpecificParams.mobileGestureRecognizers ?? const {},
-        displayWithHybridComposition:
-            widget.mobileSpecificParams.androidEnableHybridComposition,
+      widgetParams = wf_android.AndroidWebViewWidgetCreationParams
+          .fromPlatformWebViewWidgetCreationParams(
+        wf_android.AndroidWebViewWidgetCreationParams(
+          controller: originalWebViewController.platform,
+          gestureRecognizers:
+              widget.mobileSpecificParams.mobileGestureRecognizers ?? const {},
+          displayWithHybridComposition:
+              widget.mobileSpecificParams.androidEnableHybridComposition,
+        ),
+        displayWithHybridComposition: true,
       );
     } else if (Platform.isIOS || Platform.isMacOS) {
       widgetParams = wf_wk.WebKitWebViewWidgetCreationParams(

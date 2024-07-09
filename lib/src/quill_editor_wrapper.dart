@@ -55,6 +55,7 @@ class QuillHtmlEditor extends StatefulWidget {
       color: Colors.black87,
       fontWeight: FontWeight.normal,
     ),
+    this.navigationDelegate,
   }) : super(key: controller._editorKey);
 
   /// [text] to set initial text to the editor, please use text
@@ -123,6 +124,10 @@ class QuillHtmlEditor extends StatefulWidget {
   /// default padding will be EdgeInsets.zero
   final EdgeInsets? hintTextPadding;
 
+  /// Callback to decide whether to allow navigation to the incoming url
+  final FutureOr<bool> Function(NavigationRequest navigation)?
+      navigationDelegate;
+
   /// [ensureVisible] by default it will be set to false, set it to true to
   /// make sure the focus area of the editor is visible.
   /// Note:  Please make sure to wrap the editor with SingleChildScrollView, to make the
@@ -176,6 +181,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
   late String _fontFamily;
   late String _encodedStyle;
   bool _editorLoaded = false;
+
   @override
   initState() {
     _loadScripts = rootBundle.loadString(
@@ -489,6 +495,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
 
   /// a private method to embed the video to the editor
   Future _embedVideo({required String videoUrl}) async {
+    // String mVideoUrl = "${videoUrl}#t=0.1";
     return await _webviewController.callJsMethod("embedVideo", [videoUrl]);
   }
 
@@ -977,6 +984,7 @@ class QuillHtmlEditorState extends State<QuillHtmlEditor> {
                 toolbar: '#toolbar-container',
                 table: true,
                  keyboard:  ${widget.inputAction == InputAction.send ? '{bindings: bindings}' : '{}'},
+                keyboard:  {bindings: bindings},
                 history: {
                   delay: 2000,
                   maxStack: 500,
